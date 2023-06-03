@@ -6,11 +6,13 @@ import {
     Patch,
     Param,
     Delete,
+    UseGuards,
 } from '@nestjs/common';
 import { BoardGamesService } from './board-games.service';
 import { CreateBoardGameDto } from './dto/create-board-game.dto';
 import { UpdateBoardGameDto } from './dto/update-board-game.dto';
-
+import { AuthGuard } from '../auth/auth.guard';
+@UseGuards(AuthGuard)
 @Controller('board-games')
 export class BoardGamesController {
     constructor(private readonly boardGamesService: BoardGamesService) {}
