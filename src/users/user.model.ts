@@ -1,7 +1,21 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+    Column,
+    DataType,
+    Model,
+    Table,
+    PrimaryKey,
+} from 'sequelize-typescript';
 
 @Table
 export class User extends Model {
+    @PrimaryKey
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false,
+    })
+    id: string;
+
     @Column({
         type: DataType.STRING,
         allowNull: false,

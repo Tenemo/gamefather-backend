@@ -69,6 +69,7 @@ module.exports = {
         '@typescript-eslint/no-floating-promises': OFF,
         '@typescript-eslint/explicit-function-return-type': OFF,
         '@typescript-eslint/explicit-module-boundary-types': OFF,
+        '@typescript-eslint/no-explicit-any': OFF,
 
         'jest/no-commented-out-tests': ERROR,
     },

@@ -2,9 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './user.model';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import bcrypt from 'bcrypt';
-
+import * as bcrypt from 'bcrypt';
+import { Op } from 'sequelize';
 @Injectable()
 export class UsersService {
     constructor(
@@ -17,7 +16,6 @@ export class UsersService {
         user.username = createUserDto.username;
         const salt = await bcrypt.genSalt();
         user.password = await bcrypt.hash(createUserDto.password, salt);
-
         return user.save();
     }
 
@@ -28,20 +26,8 @@ export class UsersService {
     async findOne(id: string): Promise<User> {
         return this.userModel.findOne({ where: { id } });
     }
-
-    async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-        const user = await this.userModel.findOne({ where: { id } });
-
-        if (user) {
-            user.username = updateUserDto.username || user.username;
-
-            if (updateUserDto.password) {
-                const salt = await bcrypt.genSalt();
-                user.password = await bcrypt.hash(updateUserDto.password, salt);
-            }
-
-            return user.save();
-        }
+    async findByUsername(username: string): Promise<User> {
+        return this.userModel.findOne({ where: { username } });
     }
 
     async remove(id: string): Promise<void> {
