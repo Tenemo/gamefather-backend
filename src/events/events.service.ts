@@ -56,6 +56,9 @@ export class EventsService {
         if (!event) {
             throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
         }
+        if (event.ownerId !== req.user.id) {
+            throw new HttpException('Not authorized', HttpStatus.UNAUTHORIZED);
+        }
         try {
             return await event.update(updateEventDto);
         } catch (e) {
@@ -71,6 +74,9 @@ export class EventsService {
         const event = await this.findOne(id, req);
         if (!event) {
             throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
+        }
+        if (event.ownerId !== req.user.id) {
+            throw new HttpException('Not authorized', HttpStatus.UNAUTHORIZED);
         }
         try {
             await event.destroy();

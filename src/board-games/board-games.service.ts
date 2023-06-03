@@ -42,7 +42,7 @@ export class BoardGamesService {
         });
         if (!boardGame) {
             throw new HttpException(
-                'BoardGame not found',
+                'Board game not found',
                 HttpStatus.NOT_FOUND,
             );
         }
@@ -60,6 +60,9 @@ export class BoardGamesService {
                 'Board game not found',
                 HttpStatus.NOT_FOUND,
             );
+        }
+        if (boardGame.ownerId !== req.user.id) {
+            throw new HttpException('Not authorized', HttpStatus.UNAUTHORIZED);
         }
         try {
             return await boardGame.update(updateBoardGameDto);
@@ -79,6 +82,9 @@ export class BoardGamesService {
                 'Board game not found',
                 HttpStatus.NOT_FOUND,
             );
+        }
+        if (boardGame.ownerId !== req.user.id) {
+            throw new HttpException('Not authorized', HttpStatus.UNAUTHORIZED);
         }
         try {
             await boardGame.destroy();
