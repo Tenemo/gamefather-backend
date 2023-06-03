@@ -41,5 +41,5 @@ export class Event extends Model {
         type: DataType.DATE,
         allowNull: false,
     })
-    dateTime: Date;
+    datetime: Date;
 }

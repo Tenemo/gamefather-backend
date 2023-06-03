@@ -4,6 +4,7 @@ import { EventsController } from './events.controller';
 import { User } from '../users/user.model';
 import { BoardGame } from '../board-games/board-game.model';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { Event } from '../events/event.model';
 
 @Module({
     imports: [SequelizeModule.forFeature([User, BoardGame, Event])],

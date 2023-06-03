@@ -18,8 +18,6 @@ export class BoardGamesService {
         @Request() req: RequestWithUser,
     ) {
         const ownerId = req.user.id;
-        console.log('ownerId', ownerId);
-        console.log('req', req);
         const boardGame = new this.boardGameModel({
             ...createBoardGameDto,
             ownerId,
@@ -67,6 +65,7 @@ export class BoardGamesService {
             return await boardGame.update(updateBoardGameDto);
         } catch (e) {
             throw new HttpException(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 (e.message as string) || 'Could not update BoardGame',
                 HttpStatus.INTERNAL_SERVER_ERROR,
             );
@@ -85,6 +84,7 @@ export class BoardGamesService {
             await boardGame.destroy();
         } catch (e) {
             throw new HttpException(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 (e.message as string) || 'Could not remove BoardGame',
                 HttpStatus.INTERNAL_SERVER_ERROR,
             );

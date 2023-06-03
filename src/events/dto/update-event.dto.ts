@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateEventDto } from './create-event.dto';
+import { IsNotEmpty, IsISO8601, IsUUID } from 'class-validator';
+export class UpdateEventDto {
+    @IsNotEmpty()
+    name: string;
 
-export class UpdateEventDto extends PartialType(CreateEventDto) {}
+    @IsNotEmpty()
+    @IsISO8601()
+    datetime: string;
+
+    @IsUUID(4, { each: true })
+    boardGames: string[];
+}

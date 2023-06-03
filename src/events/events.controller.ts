@@ -28,22 +28,26 @@ export class EventsController {
     }
 
     @Get()
-    findAll() {
-        return this.eventsService.findAll();
+    findAll(@Req() req: RequestWithUser) {
+        return this.eventsService.findAll(req);
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.eventsService.findOne(id);
+    findOne(@Param('id') id: string, @Req() req: RequestWithUser) {
+        return this.eventsService.findOne(id, req);
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
-        return this.eventsService.update(id, updateEventDto);
+    update(
+        @Param('id') id: string,
+        @Body() updateEventDto: UpdateEventDto,
+        @Req() req: RequestWithUser,
+    ) {
+        return this.eventsService.update(id, updateEventDto, req);
     }
 
     @Delete(':id')
-    remove(@Param('id') id: string) {
-        return this.eventsService.remove(id);
+    remove(@Param('id') id: string, @Req() req: RequestWithUser) {
+        return this.eventsService.remove(id, req);
     }
 }

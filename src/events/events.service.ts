@@ -1,4 +1,4 @@
-import { Injectable, Request } from '@nestjs/common';
+import { Injectable, Request, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -25,27 +25,60 @@ export class EventsService {
         return await event.save();
     }
 
-    async findAll() {
-        return await this.eventModel.findAll();
+    async findAll(@Request() req: RequestWithUser) {
+        return await this.eventModel.findAll({
+            where: {
+                ownerId: req.user.id,
+            },
+        });
     }
 
-    async findOne(id: string) {
-        return await this.eventModel.findByPk(id);
-    }
-
-    async update(id: string, updateEventDto: UpdateEventDto) {
-        const updateEvent = await this.findOne(id);
-        if (updateEvent) {
-            return await updateEvent.update(updateEventDto);
+    async findOne(id: string, req: RequestWithUser) {
+        const event = await this.eventModel.findOne({
+            where: {
+                id,
+                ownerId: req.user.id,
+            },
+        });
+        if (!event) {
+            throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
         }
-        return null;
+        return event;
     }
 
-    async remove(id: string) {
-        const removeEvent = await this.findOne(id);
-        if (removeEvent) {
-            return await removeEvent.destroy();
+    async update(
+        id: string,
+        updateEventDto: UpdateEventDto,
+        @Request() req: RequestWithUser,
+    ) {
+        const event = await this.findOne(id, req);
+        if (!event) {
+            throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
         }
-        return null;
+        try {
+            return await event.update(updateEventDto);
+        } catch (e) {
+            throw new HttpException(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                (e.message as string) || 'Could not update Event',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
+    }
+
+    async remove(id: string, @Request() req: RequestWithUser) {
+        const event = await this.findOne(id, req);
+        if (!event) {
+            throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
+        }
+        try {
+            await event.destroy();
+        } catch (e) {
+            throw new HttpException(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                (e.message as string) || 'Could not remove Event',
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+        }
     }
 }
