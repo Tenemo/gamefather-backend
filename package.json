@@ -1,7 +1,7 @@
 {
     "name": "gamefather-backend",
     "version": "1.0.0",
-    "description": "Express.js REST API opinionated boilerplate",
+    "description": "The Gamefather backend",
     "author": "piotr@piech.dev",
     "license": "UNLICENSED",
     "repository": {
