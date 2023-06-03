@@ -52,6 +52,7 @@ export class EventsService {
         @Request() req: RequestWithUser,
     ) {
         const event = await this.findOne(id, req);
+        console.log(event);
         if (!event) {
             throw new HttpException('Event not found', HttpStatus.NOT_FOUND);
         }

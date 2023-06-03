@@ -1,5 +1,11 @@
 # gamefather-backend
 
+## Required packages
+
+`npm i -g sequelize-cli sequelize`
+
+`npx` can be used alternatively.
+
 ## Running migrations and seeds
 
 1. `sequelize-cli db:migrate`
@@ -10,7 +16,11 @@
 `sequelize-cli seed:generate --name seed-users`
 
 ## Fresh start
+
+### Wiping the database
 `sequelize db:migrate:undo:all`
-or
+
+### Wiping & reseeding
+
 `sequelize db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all`
 

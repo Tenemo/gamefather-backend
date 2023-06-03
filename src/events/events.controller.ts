@@ -3,7 +3,7 @@ import {
     Get,
     Post,
     Body,
-    Patch,
+    Put,
     Param,
     Delete,
     UseGuards,
@@ -37,8 +37,8 @@ export class EventsController {
         return this.eventsService.findOne(id, req);
     }
 
-    @Patch(':id')
-    update(
+    @Put(':id')
+    replace(
         @Param('id') id: string,
         @Body() updateEventDto: UpdateEventDto,
         @Req() req: RequestWithUser,
