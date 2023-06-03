@@ -7,6 +7,8 @@ import { EventsModule } from './events/events.module';
 import { BoardGamesModule } from './board-games/board-games.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.model';
+import { BoardGame } from './board-games/board-game.model';
+import { Event } from './events/event.model';
 
 @Module({
     imports: [
@@ -17,7 +19,7 @@ import { User } from './users/user.model';
             username: 'postgres',
             password: 'root',
             database: 'gf-db',
-            models: [User],
+            models: [User, BoardGame, Event],
         }),
         UsersModule,
         EventsModule,

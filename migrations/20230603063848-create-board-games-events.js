@@ -39,8 +39,6 @@ module.exports = {
     },
 
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('EventBoardGames');
-        await queryInterface.dropTable('Events');
         await queryInterface.dropTable('BoardGames');
     },
 };

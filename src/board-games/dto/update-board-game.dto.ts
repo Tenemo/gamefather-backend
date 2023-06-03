@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateBoardGameDto } from './create-board-game.dto';
+import { IsNotEmpty } from 'class-validator';
 
-export class UpdateBoardGameDto extends PartialType(CreateBoardGameDto) {}
+export class UpdateBoardGameDto {
+    @IsNotEmpty()
+    name: string;
+
+    @IsNotEmpty()
+    description: string;
+}

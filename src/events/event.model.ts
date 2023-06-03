@@ -42,7 +42,4 @@ export class Event extends Model {
         allowNull: false,
     })
     dateTime: Date;
-
-    @HasMany(() => BoardGame)
-    boardGames: BoardGame[];
 }

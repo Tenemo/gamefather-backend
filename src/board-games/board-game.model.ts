@@ -37,6 +37,7 @@ export class BoardGame extends Model {
 
     @Column({
         type: DataType.TEXT,
+        allowNull: false,
     })
     description: string;
 }
