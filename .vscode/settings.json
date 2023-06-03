@@ -34,6 +34,7 @@
         "gitlens",
         "kohler",
         "nestjs",
-        "sourcemap"
+        "sourcemap",
+        "UUIDV4"
     ]
 }

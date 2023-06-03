@@ -76,6 +76,9 @@ module.exports = {
         {
             files: ['*.js'],
             rules: {
+                '@typescript-eslint/no-unsafe-call': OFF,
+                '@typescript-eslint/no-unsafe-return': OFF,
+                '@typescript-eslint/no-unsafe-member-access': OFF,
                 '@typescript-eslint/no-var-requires': OFF,
             },
         },

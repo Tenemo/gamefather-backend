@@ -5,21 +5,24 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { BoardGamesModule } from './board-games/board-games.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './users/user.model';
 
 @Module({
     imports: [
         SequelizeModule.forRoot({
-            dialect: 'mysql',
+            dialect: 'postgres',
             host: 'localhost',
             port: 5432,
             username: 'postgres',
             password: 'root',
             database: 'gf-db',
-            models: [],
+            models: [User],
         }),
         UsersModule,
         EventsModule,
         BoardGamesModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],

@@ -1,26 +1,54 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { User } from './user.model';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-    create(createUserDto: CreateUserDto) {
-        return 'This action adds a new user';
+    constructor(
+        @InjectModel(User)
+        private userModel: typeof User,
+    ) {}
+
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const user = new User();
+        user.username = createUserDto.username;
+        const salt = await bcrypt.genSalt();
+        user.password = await bcrypt.hash(createUserDto.password, salt);
+
+        return user.save();
     }
 
-    findAll() {
-        return `This action returns all users`;
+    async findAll(): Promise<User[]> {
+        return this.userModel.findAll();
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} user`;
+    async findOne(id: string): Promise<User> {
+        return this.userModel.findOne({ where: { id } });
     }
 
-    update(id: number, updateUserDto: UpdateUserDto) {
-        return `This action updates a #${id} user`;
+    async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+        const user = await this.userModel.findOne({ where: { id } });
+
+        if (user) {
+            user.username = updateUserDto.username || user.username;
+
+            if (updateUserDto.password) {
+                const salt = await bcrypt.genSalt();
+                user.password = await bcrypt.hash(updateUserDto.password, salt);
+            }
+
+            return user.save();
+        }
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} user`;
+    async remove(id: string): Promise<void> {
+        const user = await this.userModel.findOne({ where: { id } });
+
+        if (user) {
+            await user.destroy();
+        }
     }
 }

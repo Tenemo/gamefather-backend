@@ -1,0 +1,16 @@
+{
+    "development": {
+        "username": "postgres",
+        "password": "root",
+        "database": "gf-db",
+        "host": "localhost",
+        "dialect": "postgres"
+    },
+    "production": {
+        "username": "postgres",
+        "password": "root",
+        "database": "gf-db_production",
+        "host": "localhost",
+        "dialect": "postgres"
+    }
+}

@@ -13,5 +13,5 @@
         "incremental": true,
         "skipLibCheck": true
     },
-    "include": ["src/**/*", ".eslintrc.js", "temp/**/*"]
+    "include": ["src/**/*", ".eslintrc.js", "temp/**/*", "migrations/**/*", "seeders/**/*"],
 }
