@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+    Injectable,
+    UnauthorizedException,
+    BadRequestException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
@@ -35,15 +39,19 @@ export class AuthService {
     }
 
     async register(createUserDto: CreateUserDto) {
-        const userExists = await this.usersService.findByUsername(
-            createUserDto.username,
-        );
+        const { password, username } = createUserDto;
+        if (password.length < 8) {
+            throw new BadRequestException(
+                'Password must be at least 8 characters long',
+            );
+        }
+        const userExists = await this.usersService.findByUsername(username);
         if (userExists) {
             throw new UnauthorizedException('Username is already taken');
         }
 
         const user = await this.usersService.create(createUserDto);
-        const { username, id } = user;
+        const { id } = user;
         const payload = { sub: id, username };
         return {
             access_token: await this.jwtService.signAsync(payload),
