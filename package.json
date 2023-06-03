@@ -22,6 +22,8 @@
         "start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
+        "eslint": "eslint . --ext js,ts",
+        "eslint:fix": "eslint . --ext js,ts --fix",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "test": "jest",
         "test:watch": "jest --watch",
@@ -31,6 +33,7 @@
     "dependencies": {
         "@nestjs/common": "^9.0.0",
         "@nestjs/core": "^9.0.5",
+        "@nestjs/mapped-types": "*",
         "@nestjs/platform-express": "^9.0.0",
         "@nestjs/sequelize": "^9.0.2",
         "pg": "^8.11.0",

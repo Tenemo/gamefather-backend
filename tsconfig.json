@@ -12,6 +12,6 @@
         "baseUrl": "./",
         "incremental": true,
         "skipLibCheck": true
-    }
-  }
-  
+    },
+    "include": ["src/**/*", ".eslintrc.js", "temp/**/*"]
+}

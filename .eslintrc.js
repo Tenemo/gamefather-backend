@@ -61,19 +61,14 @@ module.exports = {
             },
         ],
 
-        '@typescript-eslint/explicit-function-return-type': [
-            ERROR,
-            {
-                allowExpressions: true,
-                allowTypedFunctionExpressions: true,
-            },
-        ],
-        '@typescript-eslint/explicit-module-boundary-types': ERROR,
         '@typescript-eslint/no-unused-vars': OFF, // duplicated by ts(6133)
         '@typescript-eslint/no-use-before-define': ERROR,
         '@typescript-eslint/unbound-method': ERROR,
         '@typescript-eslint/require-await': OFF, // Fastify requires async functions everywhere?
         '@typescript-eslint/ban-ts-comment': OFF,
+        '@typescript-eslint/no-floating-promises': OFF,
+        '@typescript-eslint/explicit-function-return-type': OFF,
+        '@typescript-eslint/explicit-module-boundary-types': OFF,
 
         'jest/no-commented-out-tests': ERROR,
     },
