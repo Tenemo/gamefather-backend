@@ -29,10 +29,11 @@
         "dbaeumer",
         "eamodio",
         "esbenp",
-        "expressplate",
         "formulahendry",
+        "gamefather-backend",
         "gitlens",
         "kohler",
+        "nestjs",
         "sourcemap"
     ]
 }

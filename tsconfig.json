@@ -1,27 +1,17 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src/",
-        "target": "esnext",
         "module": "commonjs",
-        "esModuleInterop": true,
-        "moduleResolution": "node",
+        "declaration": true,
         "removeComments": true,
-        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true,
-        "strict": true,
+        "target": "ES2019",
         "sourceMap": true,
-        "allowJs": true,
-        "noEmit": true,
-        "isolatedModules": true,
-        "skipLibCheck": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": true,
-        "noErrorTruncation": true
-    },
-    "ts-node": {
-        "require": ["tsconfig-paths/register"]
-    },
-    "include": ["src/**/*", "config/**/*", ".eslintrc.js", "temp/**/*"]
-}
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "incremental": true,
+        "skipLibCheck": true
+    }
+  }
+  
