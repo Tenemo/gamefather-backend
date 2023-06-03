@@ -25,6 +25,7 @@
     "workbench.iconTheme": "vscode-icons",
     "cSpell.ignorePaths": ["node_modules", ".git"],
     "cSpell.words": [
+        "Catan",
         "coenraad",
         "dbaeumer",
         "eamodio",
