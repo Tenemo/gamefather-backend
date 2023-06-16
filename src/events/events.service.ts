@@ -112,7 +112,33 @@ export class EventsService {
             throw new HttpException('Not authorized', HttpStatus.UNAUTHORIZED);
         }
         try {
-            return await event.update(updateEventDto);
+            await this.eventModel.sequelize.transaction(
+                async (transaction: Transaction) => {
+                    await event.update(updateEventDto, { transaction });
+
+                    if (updateEventDto.boardGames) {
+                        // Delete the existing EventBoardGames related to the event
+                        await this.eventBoardGamesModel.destroy({
+                            where: { eventId: id },
+                            transaction,
+                        });
+
+                        // Create new EventBoardGames with the updated boardGames array
+                        const boardGames = updateEventDto.boardGames.map(
+                            (boardGameId) => ({
+                                eventId: event.id,
+                                boardGameId,
+                            }),
+                        );
+                        await this.eventBoardGamesModel.bulkCreate(boardGames, {
+                            transaction,
+                        });
+                    }
+                },
+            );
+
+            // Fetch and return the updated event with its related board games
+            return await this.findOne(id, req);
         } catch (e) {
             throw new HttpException(
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

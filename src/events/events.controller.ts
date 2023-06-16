@@ -73,12 +73,14 @@ export class EventsController {
     }
 
     @Put(':id')
-    replace(
+    async replace(
         @Param('id') id: string,
         @Body() updateEventDto: UpdateEventDto,
         @Req() req: RequestWithUser,
     ) {
-        return this.eventsService.update(id, updateEventDto, req);
+        return await formatEvent(
+            this.eventsService.update(id, updateEventDto, req),
+        );
     }
 
     @Delete(':id')
