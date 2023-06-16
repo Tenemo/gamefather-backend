@@ -6,12 +6,15 @@ import { Event } from './event.model';
 import { EventBoardGames } from './event-board-games.model';
 import { BoardGame } from '../board-games/board-game.model';
 import { RequestWithUser } from '../types/types';
+import { Transaction } from 'sequelize';
 
 @Injectable()
 export class EventsService {
     constructor(
         @InjectModel(Event)
         private eventModel: typeof Event,
+        @InjectModel(EventBoardGames)
+        private eventBoardGamesModel: typeof EventBoardGames,
     ) {}
 
     async create(
@@ -19,11 +22,30 @@ export class EventsService {
         @Request() req: RequestWithUser,
     ) {
         const ownerId = req.user.id;
-        const event = new this.eventModel({
-            ...createEventDto,
-            ownerId,
-        });
-        return await event.save();
+        return await this.eventModel.sequelize.transaction(
+            async (transaction: Transaction) => {
+                const event = await this.eventModel.create(
+                    {
+                        ...createEventDto,
+                        ownerId,
+                    },
+                    { transaction },
+                );
+
+                const boardGames = createEventDto.boardGames.map(
+                    (boardGameId) => ({
+                        eventId: event.id,
+                        boardGameId,
+                    }),
+                );
+
+                await this.eventBoardGamesModel.bulkCreate(boardGames, {
+                    transaction,
+                });
+
+                return event;
+            },
+        );
     }
 
     async findAll(@Request() req: RequestWithUser) {
