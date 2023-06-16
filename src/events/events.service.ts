@@ -16,15 +16,16 @@ export class EventsService {
         @InjectModel(EventBoardGames)
         private eventBoardGamesModel: typeof EventBoardGames,
     ) {}
-
     async create(
         createEventDto: CreateEventDto,
         @Request() req: RequestWithUser,
     ) {
         const ownerId = req.user.id;
-        return await this.eventModel.sequelize.transaction(
+
+        let event;
+        await this.eventModel.sequelize.transaction(
             async (transaction: Transaction) => {
-                const event = await this.eventModel.create(
+                event = await this.eventModel.create(
                     {
                         ...createEventDto,
                         ownerId,
@@ -34,6 +35,7 @@ export class EventsService {
 
                 const boardGames = createEventDto.boardGames.map(
                     (boardGameId) => ({
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                         eventId: event.id,
                         boardGameId,
                     }),
@@ -42,10 +44,11 @@ export class EventsService {
                 await this.eventBoardGamesModel.bulkCreate(boardGames, {
                     transaction,
                 });
-
-                return event;
             },
         );
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+        return await this.findOne(event.id, req);
     }
 
     async findAll(@Request() req: RequestWithUser) {

@@ -53,11 +53,13 @@ export class EventsController {
     constructor(private readonly eventsService: EventsService) {}
 
     @Post()
-    create(
+    async create(
         @Body() createEventDto: CreateEventDto,
         @Req() req: RequestWithUser,
     ) {
-        return this.eventsService.create(createEventDto, req);
+        return await formatEvent(
+            this.eventsService.create(createEventDto, req),
+        );
     }
 
     @Get()

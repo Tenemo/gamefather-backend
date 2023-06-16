@@ -9,7 +9,6 @@ import {
     HasMany,
 } from 'sequelize-typescript';
 import { User } from '../users/user.model';
-import { BoardGame } from '../board-games/board-game.model';
 import { EventBoardGames } from './event-board-games.model';
 
 @Table
