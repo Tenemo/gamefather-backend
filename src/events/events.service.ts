@@ -27,7 +27,7 @@ export class EventsService {
     }
 
     async findAll(@Request() req: RequestWithUser) {
-        return await this.eventModel.findAll({
+        const events = await this.eventModel.findAll({
             where: {
                 ownerId: req.user.id,
             },
@@ -45,6 +45,7 @@ export class EventsService {
                 },
             ],
         });
+        return events;
     }
 
     async findOne(id: string, req: RequestWithUser) {
