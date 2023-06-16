@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { User } from '../users/user.model';
 
-@Table
+@Table({ tableName: 'BoardGames' })
 export class BoardGame extends Model {
     @PrimaryKey
     @Column({

@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { Event } from './event.model';
-
+import { EventBoardGames } from './event-board-games.model';
+import { BoardGame } from '../board-games/board-game.model';
 import { RequestWithUser } from '../types/types';
 
 @Injectable()
@@ -30,6 +31,19 @@ export class EventsService {
             where: {
                 ownerId: req.user.id,
             },
+            include: [
+                {
+                    model: EventBoardGames,
+                    as: 'boardGames',
+                    attributes: ['boardGameId'],
+                    include: [
+                        {
+                            model: BoardGame,
+                            as: 'boardGame',
+                        },
+                    ],
+                },
+            ],
         });
     }
 
@@ -39,6 +53,19 @@ export class EventsService {
                 id,
                 ownerId: req.user.id,
             },
+            include: [
+                {
+                    model: EventBoardGames,
+                    as: 'boardGames',
+                    attributes: ['boardGameId'],
+                    include: [
+                        {
+                            model: BoardGame,
+                            as: 'boardGame',
+                        },
+                    ],
+                },
+            ],
         });
         if (!event) {
             throw new HttpException('Event not found', HttpStatus.NOT_FOUND);

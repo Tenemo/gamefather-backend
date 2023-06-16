@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { User } from '../users/user.model';
 import { BoardGame } from '../board-games/board-game.model';
+import { EventBoardGames } from './event-board-games.model';
 
 @Table
 export class Event extends Model {
@@ -42,4 +43,7 @@ export class Event extends Model {
         allowNull: false,
     })
     datetime: Date;
+
+    @HasMany(() => EventBoardGames, { as: 'boardGames', foreignKey: 'eventId' })
+    EventBoardGames: EventBoardGames[];
 }

@@ -6,13 +6,14 @@ import {
     Unique,
     ForeignKey,
     BelongsTo,
+    PrimaryKey,
 } from 'sequelize-typescript';
-import { User } from '../users/user.model';
 import { Event } from '../events/event.model';
 import { BoardGame } from '../board-games/board-game.model';
 
-@Table
+@Table({ tableName: 'EventBoardGames' })
 export class EventBoardGames extends Model {
+    @PrimaryKey
     @Unique('EventBoardGameConstraint')
     @ForeignKey(() => Event)
     @Column({
@@ -21,9 +22,10 @@ export class EventBoardGames extends Model {
     })
     eventId: string;
 
-    @BelongsTo(() => Event)
+    @BelongsTo(() => Event, { as: 'event', foreignKey: 'eventId' })
     event: Event;
 
+    @PrimaryKey
     @Unique('EventBoardGameConstraint')
     @ForeignKey(() => BoardGame)
     @Column({
@@ -32,6 +34,6 @@ export class EventBoardGames extends Model {
     })
     boardGameId: string;
 
-    @BelongsTo(() => BoardGame)
+    @BelongsTo(() => BoardGame, { as: 'boardGame', foreignKey: 'boardGameId' })
     boardGame: BoardGame;
 }
